@@ -26,7 +26,10 @@ public class StringCalculator {
         return Arrays.stream(numbers.split(delimiter))
                 .mapToInt(value -> {
                     try {
-                        return Integer.parseInt(value);
+                        int integer = Integer.parseInt(value);
+                        if (integer > 1000)
+                            return 0;
+                        return integer;
                     } catch (Exception e) {
                         return 0;
                     }
