@@ -10,32 +10,43 @@ public class StringCalculator {
         if (numbers == null || numbers.equals(""))
             return 0;
 
-        String delimiter = ",";
+        List<String> delimiters = new ArrayList<>();
         if (numbers.startsWith("//")) {
             List<String> possibleDelimiter = findRegex(numbers, "\\/\\/\\[.*\\]");
             if (possibleDelimiter.size() > 0) {
-                delimiter = possibleDelimiter.get(0)
-                        .replace("//", "")
-                        .replace("[", "")
-                        .replace("]", "");
+                String stripped = possibleDelimiter.get(0).replace("//", "");
+
+                while(stripped.contains("[") && stripped.contains("]")) {
+                    delimiters.add(stripped
+                            .substring(stripped.indexOf("["), stripped.indexOf("]")+1)
+                            .replace("[", "")
+                            .replace("]", ""));
+                    stripped = stripped.substring(stripped.indexOf("]")+1);
+                }
             } else {
-                delimiter = numbers
+                delimiters.add(numbers
                         .substring(0, numbers.indexOf("\n"))
-                        .replaceAll("//", "");
+                        .replaceAll("//", ""));
             }
         }
+
+        if (delimiters.size() == 0)
+            delimiters.add(",");
 
         List<String> negatives = findRegex(numbers, "(-[0-9])");
         if (negatives.size() > 0)
             throw new Exception("Negatives not allowed: " + String.join(",", negatives));
 
         if (numbers.contains("\n"))
-            numbers = numbers.replaceAll("\n", delimiter);
+            numbers = numbers.replaceAll("\n", ",");
 
-        return Arrays.stream(numbers.split(delimiter))
+        for (String delimiter : delimiters)
+            numbers = numbers.replaceAll(delimiter, ",");
+
+        return Arrays.stream(numbers.split(","))
                 .mapToInt(value -> {
                     try {
-                        int integer = Integer.parseInt(value);
+                        int integer = Integer.parseInt(value.toString());
                         if (integer > 1000)
                             return 0;
                         return integer;

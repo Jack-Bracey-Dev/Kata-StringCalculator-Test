@@ -68,4 +68,10 @@ public class StringCalculatorTests {
         Assert.assertEquals(6, stringCalculator.Add("//[|||]\n1|||2|||3"));
     }
 
+    // Step 8
+    @Test
+    public void shouldAllowMultipleDelimiters() throws Exception {
+        Assert.assertEquals(6, stringCalculator.Add("//[|][%]\n1|2%3"));
+    }
+
 }
