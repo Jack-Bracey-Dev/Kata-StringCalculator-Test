@@ -6,10 +6,16 @@ public class StringCalculator {
         if (numbers == null || numbers.equals(""))
             return 0;
 
-        if (numbers.contains("\n"))
-            numbers = numbers.replaceAll("\n", ",");
+        String delimiter = ",";
+        if (numbers.startsWith("//"))
+            delimiter = numbers
+                    .substring(0, numbers.indexOf("\n"))
+                    .replaceAll("//", "");
 
-        return Arrays.stream(numbers.split(","))
+        if (numbers.contains("\n"))
+            numbers = numbers.replaceAll("\n", delimiter);
+
+        return Arrays.stream(numbers.split(delimiter))
                 .mapToInt(value -> {
                     try {
                         return Integer.parseInt(value);

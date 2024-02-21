@@ -37,4 +37,10 @@ public class StringCalculatorTests {
         Assert.assertEquals(1, stringCalculator.Add("1,\\n"));
     }
 
+    // Step four
+    @Test
+    public void shouldAllowForSpecifiedDelimiter() {
+        Assert.assertEquals(3, stringCalculator.Add("//;\n1;2"));
+    }
+
 }
