@@ -23,6 +23,8 @@ public class StringCalculator {
                             .replace("]", ""));
                     stripped = stripped.substring(stripped.indexOf("]")+1);
                 }
+
+                numbers = numbers.replace(possibleDelimiter.get(0), "");
             } else {
                 delimiters.add(numbers
                         .substring(0, numbers.indexOf("\n"))
@@ -46,7 +48,7 @@ public class StringCalculator {
         return Arrays.stream(numbers.split(","))
                 .mapToInt(value -> {
                     try {
-                        int integer = Integer.parseInt(value.toString());
+                        int integer = Integer.parseInt(value);
                         if (integer > 1000)
                             return 0;
                         return integer;
