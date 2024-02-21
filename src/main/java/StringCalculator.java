@@ -11,10 +11,19 @@ public class StringCalculator {
             return 0;
 
         String delimiter = ",";
-        if (numbers.startsWith("//"))
-            delimiter = numbers
-                    .substring(0, numbers.indexOf("\n"))
-                    .replaceAll("//", "");
+        if (numbers.startsWith("//")) {
+            List<String> possibleDelimiter = findRegex(numbers, "\\/\\/\\[.*\\]");
+            if (possibleDelimiter.size() > 0) {
+                delimiter = possibleDelimiter.get(0)
+                        .replace("//", "")
+                        .replace("[", "")
+                        .replace("]", "");
+            } else {
+                delimiter = numbers
+                        .substring(0, numbers.indexOf("\n"))
+                        .replaceAll("//", "");
+            }
+        }
 
         List<String> negatives = findRegex(numbers, "(-[0-9])");
         if (negatives.size() > 0)
