@@ -6,6 +6,9 @@ public class StringCalculator {
         if (numbers == null || numbers.equals(""))
             return 0;
 
+        if (numbers.contains("\n"))
+            numbers = numbers.replaceAll("\n", ",");
+
         return Arrays.stream(numbers.split(","))
                 .mapToInt(value -> {
                     try {
